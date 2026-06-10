@@ -31,7 +31,6 @@ const charts = {
   animation: $("animationChart"),
   distribution: $("distributionChart"),
   collision: $("collisionChart"),
-  sweep: $("sweepChart"),
 };
 
 let activeRun = 0;
@@ -318,18 +317,6 @@ function topWindow(points, limit = 180) {
     .map((p) => ({ x: p.k, y: p.p }));
 }
 
-function sweep(params) {
-  const low = Math.max(50, Math.round(params.totalVotes * 0.35));
-  const high = Math.min(50000, Math.round(params.totalVotes * 1.65));
-  const step = Math.max(25, Math.round((high - low) / 34));
-  const points = [];
-  for (let n = low; n <= high; n += step) {
-    const pmf = betaBinomialPmf(n, params.alpha, params.beta);
-    points.push({ x: n, y: collisionProbability(pmf, params.tolerance).probability });
-  }
-  return points;
-}
-
 function renderStatic(params) {
   const pmf = betaBinomialPmf(params.totalVotes, params.alpha, params.beta);
   const exact = collisionProbability(pmf, params.tolerance);
@@ -358,7 +345,6 @@ function renderStatic(params) {
 
   drawLineChart(charts.distribution, [{ color: "#0f766e", points: downsamplePmf(pmf) }]);
   drawBars(charts.collision, topWindow(exact.contributions), "#375a9e", { yLabel: "기여" });
-  drawLineChart(charts.sweep, [{ color: "#9f1239", points: sweep(params) }], { yLabel: "일치 확률" });
 
   lastStaticRender = { params, exact };
   return exact;
