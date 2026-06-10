@@ -340,7 +340,7 @@ function renderStatic(params) {
   outputs.collisionCaption.textContent = params.tolerance === 0 ? "정확히 같은 득표수" : `±${params.tolerance}표 이내`;
   outputs.explanation.textContent =
     `후보 ${number(params.observed)}표와 상대 ${number(params.other)}표의 합계 ${number(params.totalVotes)}표를 ` +
-    `각 지역구 총투표수로 적용했습니다. 정확 계산 확률은 ${percent(exact.probability)}이며, ` +
+    `각 지역구 총투표수로 적용했습니다. 확률은 ${percent(exact.probability)}이며, ` +
     `${odds(exact.probability)} 정도입니다.`;
 
   drawLineChart(charts.distribution, [{ color: "#0f766e", points: downsamplePmf(pmf) }]);
