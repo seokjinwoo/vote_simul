@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>동일 득표수 확률 시뮬레이터</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="app">
+      <section class="intro">
+        <div>
+          <p class="eyebrow">Beta-Binomial Election Simulator</p>
+          <h1>두 지역구에서 같은 득표수가 나올 가능성</h1>
+          <p class="lede">
+            관측된 득표율을 베타분포로 불확실하게 두고, 각 지역구의 득표수가 같은 값으로
+            나올 확률을 정확 계산과 몬테카를로 방식으로 비교합니다.
+          </p>
+        </div>
+        <div class="summary-tile">
+          <span>현재 설정의 정확 확률</span>
+          <strong id="mainProbability">-</strong>
+          <small id="mainOdds">계산 대기 중</small>
+        </div>
+      </section>
+
+      <section class="workspace">
+        <aside class="controls" aria-label="시뮬레이션 파라미터">
+          <div class="control-group">
+            <h2>관측 자료</h2>
+            <label>
+              후보 득표수
+              <input id="observedVotes" type="number" min="0" step="1" value="3030" />
+            </label>
+            <label>
+              상대/나머지 표
+              <input id="otherVotes" type="number" min="0" step="1" value="1440" />
+            </label>
+            <label>
+              사전분포 강도
+              <input id="priorStrength" type="range" min="0" max="200" step="1" value="0" />
+              <output id="priorStrengthValue">0</output>
+            </label>
+          </div>
+
+          <div class="control-group">
+            <h2>지역구 설정</h2>
+            <label>
+              지역구 A 총투표수
+              <input id="districtA" type="number" min="1" max="50000" step="1" value="4470" />
+            </label>
+            <label>
+              지역구 B 총투표수
+              <input id="districtB" type="number" min="1" max="50000" step="1" value="4470" />
+            </label>
+            <label>
+              같은 표로 볼 허용 오차
+              <input id="tolerance" type="number" min="0" max="1000" step="1" value="0" />
+            </label>
+          </div>
+
+          <div class="control-group">
+            <h2>시뮬레이션</h2>
+            <label>
+              반복 횟수
+              <input id="trials" type="number" min="1000" max="500000" step="1000" value="100000" />
+            </label>
+            <label>
+              난수 시드
+              <input id="seed" type="number" min="1" step="1" value="2026" />
+            </label>
+            <button id="runButton" type="button">다시 계산</button>
+          </div>
+        </aside>
+
+        <section class="results" aria-live="polite">
+          <div class="metric-grid">
+            <article>
+              <span>정확 계산</span>
+              <strong id="exactProbability">-</strong>
+              <small id="exactCount">-</small>
+            </article>
+            <article>
+              <span>몬테카를로</span>
+              <strong id="simProbability">-</strong>
+              <small id="simCount">-</small>
+            </article>
+            <article>
+              <span>추정 득표율</span>
+              <strong id="meanShare">-</strong>
+              <small id="posteriorInfo">-</small>
+            </article>
+          </div>
+
+          <div class="chart-row">
+            <div class="panel">
+              <div class="panel-head">
+                <h2>득표수 분포</h2>
+                <span id="distributionCaption">-</span>
+              </div>
+              <canvas id="distributionChart" width="900" height="420"></canvas>
+            </div>
+            <div class="panel">
+              <div class="panel-head">
+                <h2>동일 득표 기여도</h2>
+                <span id="collisionCaption">-</span>
+              </div>
+              <canvas id="collisionChart" width="900" height="420"></canvas>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-head">
+              <h2>총투표수 변화에 따른 확률</h2>
+              <span>두 지역구 총투표수를 같이 바꿨을 때</span>
+            </div>
+            <canvas id="sweepChart" width="1200" height="360"></canvas>
+          </div>
+
+          <div class="note">
+            <strong>해석 메모</strong>
+            <p id="explanation">
+              입력값을 바꾸면 두 지역구가 독립적으로 같은 득표율 구조를 따른다고 보았을 때의
+              동일 득표수 확률을 다시 계산합니다.
+            </p>
+          </div>
+        </section>
+      </section>
+    </main>
+    <script src="app.js"></script>
+  </body>
+</html>
