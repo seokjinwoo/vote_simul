@@ -188,6 +188,13 @@ output {
   font-weight: 700;
 }
 
+.hint {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.5;
+}
+
 button {
   width: 100%;
   min-height: 44px;
