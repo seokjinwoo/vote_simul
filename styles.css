@@ -282,6 +282,13 @@ canvas {
   background: #fbfcfb;
 }
 
+.chart-note {
+  margin: 10px 0 0;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
 .note {
   padding: 18px;
   line-height: 1.65;
